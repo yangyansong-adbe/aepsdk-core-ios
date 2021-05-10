@@ -18,18 +18,6 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: Install realm/SwiftLint
-          command: brew update-reset && brew install swiftlint
-      - run: 
-          name: Swift Linting
-          command: swiftlint lint
-      - run:
-          name: Install nicklockwood/SwiftFormat
-          command: brew install swiftformat
-      - run: 
-          name: Swift Formating
-          command: swiftformat . --lint --swiftversion 5.2
       # pre-start the simulator to prevent timeouts
       - run:
           name: Pre-start Simulator
@@ -40,56 +28,5 @@ jobs:
           command: pod install
 
       - run:
-          name: Run AEPCore Tests
-          command: make aep-core-unit-test
-          
-      - run:
-          name: Download Codecov Uploader
-          command: |
-            curl -s https://codecov.io/bash > codecov;
-            VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
-            for i in 1 256 512
-            do
-              shasum -a $i -c --ignore-missing <(curl -s "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") ||
-              shasum -a $i -c <(curl -s "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM" | grep -w "codecov")
-            done
-
-      - run:
-          name: Upload Code Coverage Reports for AEPCore
-          command: bash ./codecov -v -X s3 -c -D "./build/out" -J "AEPCore" 
-
-      - run:
-          name: Run AEPServices Tests
-          command: make aep-services-unit-test
-
-      - run:
-          name: Upload Code Coverage Reports for AEPServices
-          command: bash ./codecov -v -X s3 -c -D "./build/out" -J "AEPServices" 
-
-      - run:
-          name: Run AEPLifecycle Tests
-          command: make aep-lifecycle-unit-test
-
-      - run:
-          name: Upload Code Coverage Reports for AEPLifecycle
-          command: bash ./codecov -v -X s3 -c -D "./build/out" -J "AEPLifecycle" 
-
-      - run:
-          name: Run AEPIdentity Tests
-          command: make aep-identity-unit-test
-
-      - run:
-          name: Upload Code Coverage Reports for AEPIdentity
-          command: bash ./codecov -v -X s3 -c -D "./build/out" -J "AEPIdentity" 
-
-      - run:
-          name: Run AEPSignal Tests
-          command: make aep-signal-unit-test
-
-      - run:
-          name: Upload Code Coverage Reports for AEPSignal
-          command: bash ./codecov -v -X s3 -c -D "./build/out" -J "AEPSignal" 
-
-      - run:
-          name: Run Integration Tests
-          command: make integration-test
+          name: lipo test
+          command: make archive_framework
