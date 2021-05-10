@@ -69,7 +69,7 @@ archive_framework:
 	xcodebuild archive -workspace AEPCore.xcworkspace -scheme AEP-All -archivePath "./build/ios.xcarchive" -sdk iphoneos -destination="iOS" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 	xcodebuild archive -workspace AEPCore.xcworkspace -scheme AEP-All -archivePath "./build/ios_simulator.xcarchive" -sdk iphonesimulator -destination="iOS Simulator" SKIP_INSTALL=NO BUILD_LIBRARIES_FOR_DISTRIBUTION=YES
 	mkdir -p ./build/FatFramework/AEPServcies.framework
-	lipo -create -output "./build/FatFramework/AEPServciesFramework/AEPServices" $(SIMULATOR_ARCHIVE_PATH)$(AEPSERVICES_TARGET_NAME).framework/AEPServices $(IOS_ARCHIVE_PATH)$(AEPSERVICES_TARGET_NAME).framework/AEPServices
+	lipo -create -output "./build/FatFramework/AEPServcies.framework/AEPServices" $(SIMULATOR_ARCHIVE_PATH)$(AEPSERVICES_TARGET_NAME).framework/AEPServices $(IOS_ARCHIVE_PATH)$(AEPSERVICES_TARGET_NAME).framework/AEPServices
 	lipo -info "./build/FatFramework/AEPServcies.framework/AEPServices"
 	
 
